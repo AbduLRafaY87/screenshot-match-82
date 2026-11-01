@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, redirect, Link, useNavigate, useLocation } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { LayoutDashboard, Users, BookOpen, Megaphone, LogOut, KeyRound, BarChart3, MessageSquareWarning } from "lucide-react";
-import logo from "@/assets/gutech-logo.png.asset.json";
+import logo from "@/assets/images.png";
 import { supabase } from "@/integrations/supabase/client";
 import { meQuery, useMe } from "@/lib/me";
 import { Loading } from "@/components/States";
@@ -47,7 +47,7 @@ function Shell() {
     <div className="flex min-h-screen">
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground md:flex">
         <div className="border-b border-sidebar-border">
-          <img src={logo.url} alt="GU Tech — Ghazali University School of Technology" className="h-28 w-full object-cover" />
+          <img src={logo} alt="GU Tech — Ghazali University School of Technology" className="h-28 w-full object-cover" />
         </div>
         <nav className="flex-1 space-y-1 p-3">
           {nav.filter((n) => n.show).map((n) => {
