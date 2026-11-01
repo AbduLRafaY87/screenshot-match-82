@@ -31,7 +31,7 @@ export function AssignmentsTab({ courseId, canManage, userId }: { courseId: stri
   const q = useQuery({
     queryKey: ["assignments", courseId],
     queryFn: async () => {
-      const { data, error } = await supabase.from("assignments").select("*, submissions(*, profiles(full_name, roll_no))").eq("course_id", courseId).order("due_at");
+      const { data, error } = await supabase.from("assignments").select("*, submissions(*, profiles!submissions_student_id_fkey(full_name, roll_no))").eq("course_id", courseId).order("due_at");
       if (error) throw error;
       return data;
     },
