@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, redirect, Link, useNavigate, useLocation } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { GraduationCap, LayoutDashboard, Users, BookOpen, Megaphone, LogOut, KeyRound } from "lucide-react";
+import { LayoutDashboard, Users, BookOpen, Megaphone, LogOut, KeyRound, BarChart3, MessageSquareWarning } from "lucide-react";
+import logo from "@/assets/gutech-logo.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
 import { meQuery, useMe } from "@/lib/me";
 import { Loading } from "@/components/States";
@@ -29,7 +30,9 @@ function Shell() {
     { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, show: true },
     { to: "/courses", label: role === "admin" ? "Courses" : role === "teacher" ? "My Classes" : "My Courses", icon: BookOpen, show: true },
     { to: "/users", label: "Users", icon: Users, show: role === "admin" },
+    { to: "/grades", label: role === "student" ? "My Grades" : "Gradebook", icon: BarChart3, show: true },
     { to: "/announcements", label: "Announcements", icon: Megaphone, show: true },
+    { to: "/complaints", label: "Complaints", icon: MessageSquareWarning, show: true },
     { to: "/change-password", label: "Password", icon: KeyRound, show: true },
   ] as const;
 
@@ -43,14 +46,8 @@ function Shell() {
   return (
     <div className="flex min-h-screen">
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground md:flex">
-        <div className="flex items-center gap-3 border-b border-sidebar-border px-5 py-5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-gold text-gold-foreground">
-            <GraduationCap className="h-5 w-5" />
-          </div>
-          <div className="leading-tight">
-            <p className="font-bold">GU Tech</p>
-            <p className="text-[10px] uppercase tracking-widest text-sidebar-foreground/60">School of Technology</p>
-          </div>
+        <div className="border-b border-sidebar-border">
+          <img src={logo.url} alt="GU Tech — Ghazali University School of Technology" className="h-28 w-full object-cover" />
         </div>
         <nav className="flex-1 space-y-1 p-3">
           {nav.filter((n) => n.show).map((n) => {
@@ -76,7 +73,7 @@ function Shell() {
       </aside>
       <div className="flex-1">
         <header className="flex items-center justify-between border-b bg-card px-4 py-3 md:hidden">
-          <span className="font-bold text-primary">GU Tech</span>
+          <img src={logo.url} alt="GU Tech" className="h-10 rounded object-cover" />
           <div className="flex gap-3 text-xs">
             {nav.filter((n) => n.show).map((n) => (
               <Link key={n.to} to={n.to} className="text-muted-foreground [&.active]:text-primary">{n.label}</Link>

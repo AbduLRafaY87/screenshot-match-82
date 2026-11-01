@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
-import { GraduationCap, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import logo from "@/assets/gutech-logo.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -41,12 +42,7 @@ function AuthPage() {
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="relative hidden flex-col justify-between bg-hero p-12 text-primary-foreground lg:flex">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-gold text-gold-foreground">
-            <GraduationCap className="h-6 w-6" />
-          </div>
-          <span className="text-lg font-bold tracking-tight">GU Tech</span>
-        </div>
+        <img src={logo.url} alt="GU Tech — Ghazali University School of Technology" className="h-24 w-auto self-start rounded-md object-cover" />
         <div>
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-gold">Learning Management System</p>
           <h1 className="text-5xl font-extrabold leading-tight">Ghazali University<br />School of Technology</h1>
@@ -57,6 +53,7 @@ function AuthPage() {
       <div className="flex items-center justify-center p-6">
         <form onSubmit={onSubmit} className="w-full max-w-sm space-y-5">
           <div>
+            <img src={logo.url} alt="GU Tech" className="mb-6 h-16 rounded-md lg:hidden" />
             <h2 className="text-2xl font-extrabold">Sign in</h2>
             <p className="text-sm text-muted-foreground">Use the credentials provided by your administrator.</p>
           </div>
