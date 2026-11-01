@@ -33,7 +33,7 @@ function Page() {
 
   const onSubmit = form.handleSubmit(async (v) => {
     const { error } = await supabase.auth.updateUser({ password: v.password, current_password: v.current } as any);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     await supabase.rpc("mark_password_changed");
     await qc.invalidateQueries({ queryKey: ["me"] });
     toast.success("Password updated");
@@ -43,7 +43,7 @@ function Page() {
   const e = form.formState.errors;
   return (
     <div className="max-w-md">
-      <PageHeader title="Change password" subtitle={forced ? "Please set a new password before continuing." : undefined} />
+      <PageHeader title="Change password" subtitle={forced ? "Please set a new password before continuing." : ""} />
       <form onSubmit={onSubmit} className="space-y-4 rounded-lg border bg-card p-6 shadow-card">
         <div className="space-y-2"><Label>Current (temporary) password</Label><Input type="password" {...form.register("current")} />{e.current && <p className="text-xs text-destructive">{e.current.message}</p>}</div>
         <div className="space-y-2"><Label>New password</Label><Input type="password" {...form.register("password")} />{e.password && <p className="text-xs text-destructive">{e.password.message}</p>}</div>

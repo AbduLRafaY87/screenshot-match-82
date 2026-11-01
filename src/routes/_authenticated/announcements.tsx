@@ -49,12 +49,12 @@ function Page() {
 
   const form = useForm<z.input<typeof schema>>({ resolver: zodResolver(schema), defaultValues: { course_id: me?.role === "admin" ? "global" : "", is_pinned: false } });
   const onSubmit = form.handleSubmit(async (v) => {
-    if (!v.course_id) return toast.error("Choose a course");
+    if (!v.course_id) { toast.error("Choose a course"); return; }
     const { error } = await supabase.from("announcements").insert({
       title: v.title, body: v.body, is_pinned: !!v.is_pinned,
       course_id: v.course_id === "global" ? null : v.course_id, author_id: me!.user.id,
     });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Posted");
     form.reset({ course_id: v.course_id, title: "", body: "", is_pinned: false });
     qc.invalidateQueries({ queryKey: ["announcements"] });

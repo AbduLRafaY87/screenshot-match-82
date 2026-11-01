@@ -23,7 +23,7 @@ function parseCsv(text: string) {
     const cells = l.split(",").map((c) => c.trim());
     const o: Record<string, string> = {};
     header.forEach((h, i) => (o[h] = cells[i] ?? ""));
-    return { full_name: o.full_name || o.name, email: o.email, roll_no: o.roll_no || null, role: "student" as const };
+    return { full_name: o["full_name"] || o["name"], email: o["email"], roll_no: o["roll_no"] || null, role: "student" as const };
   });
 }
 
@@ -75,7 +75,7 @@ function CoursePage() {
 
   return (
     <div>
-      <PageHeader title={`${c.code} · ${c.title}`} subtitle={c.description ?? undefined} />
+      <PageHeader title={`${c.code} · ${c.title}`} subtitle={c.description ?? ""} />
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-lg border bg-card p-5 shadow-card">
           <h2 className="mb-3 font-bold">Teachers</h2>
@@ -115,7 +115,7 @@ function CoursePage() {
                   const f = e.target.files?.[0]; if (!f) return;
                   try {
                     const rows = parseCsv(await f.text()).filter((r) => r.email && r.full_name);
-                    if (!rows.length) return toast.error("No valid rows found");
+                    if (!rows.length) { toast.error("No valid rows found"); return; }
                     const res = await bulk({ data: { courseId, rows } });
                     setCsvResult(res); refresh();
                     toast.success(`${res.created.length} created`);

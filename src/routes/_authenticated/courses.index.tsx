@@ -40,8 +40,8 @@ function CoursesPage() {
   });
   const form = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) });
   const onSubmit = form.handleSubmit(async (v) => {
-    const { error } = await supabase.from("courses").insert(v);
-    if (error) return toast.error(error.message);
+    const { error } = await supabase.from("courses").insert({ ...v, description: v.description ?? null });
+    if (error) { toast.error(error.message); return; }
     toast.success("Course created");
     form.reset();
     setOpen(false);

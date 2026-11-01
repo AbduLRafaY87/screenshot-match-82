@@ -34,7 +34,7 @@ function AuthPage() {
   const onSubmit = form.handleSubmit(async (v) => {
     setErr(null);
     const { error } = await supabase.auth.signInWithPassword(v);
-    if (error) return setErr(error.message.includes("banned") ? "This account has been deactivated." : error.message);
+    if (error) { setErr(error.message.includes("banned") ? "This account has been deactivated." : error.message); return; }
     navigate({ to: "/dashboard", replace: true });
   });
 
