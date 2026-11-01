@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
@@ -9,12 +8,8 @@ import { useMe } from "@/lib/me";
 import { bulkCreateStudents } from "@/lib/admin.functions";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loading, Empty, ErrorState, PageHeader } from "@/components/States";
+import { Loading, Empty, ErrorState } from "@/components/States";
 
-export const Route = createFileRoute("/_authenticated/courses/$courseId")({
-  head: () => ({ meta: [{ title: "Course — GU Tech LMS" }] }),
-  component: CoursePage,
-});
 
 function parseCsv(text: string) {
   const lines = text.trim().split(/\r?\n/);
@@ -27,8 +22,7 @@ function parseCsv(text: string) {
   });
 }
 
-function CoursePage() {
-  const { courseId } = Route.useParams();
+export function PeopleTab({ courseId }: { courseId: string }) {
   const { data: me } = useMe();
   const qc = useQueryClient();
   const bulk = useServerFn(bulkCreateStudents);
@@ -75,7 +69,6 @@ function CoursePage() {
 
   return (
     <div>
-      <PageHeader title={`${c.code} · ${c.title}`} subtitle={c.description ?? ""} />
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-lg border bg-card p-5 shadow-card">
           <h2 className="mb-3 font-bold">Teachers</h2>
